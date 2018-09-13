@@ -1,0 +1,73 @@
+# Code you have previously used to load data
+import pandas as pd
+from sklearn.tree import DecisionTreeRegressor
+
+# Path of the file to read
+iowa_file_path = '../input/home-data-for-ml-course/train.csv'
+
+home_data = pd.read_csv(iowa_file_path)
+y = home_data.SalePrice
+feature_columns = ['LotArea', 'YearBuilt', '1stFlrSF', '2ndFlrSF', 'FullBath', 'BedroomAbvGr', 'TotRmsAbvGrd']
+X = home_data[feature_columns]
+
+# Specify Model
+iowa_model = DecisionTreeRegressor(random_state=1)
+# Fit Model
+iowa_model.fit(X, y)
+
+print("First in-sample predictions:", iowa_model.predict(X.head()))
+print("Actual target values for those homes:", y.head().tolist())
+
+#以上是没有进行数据集分类的预测分析结果
+#以下是进行数据集分类的结果,分成训练集和验证集两类
+
+#Step1:Split Your Data
+"""Use the `train_test_split` function to split up your data.
+Give it the argument `random_state=1` so the `check` functions 
+know what to expect when verifying your code.
+Recall, your features are loaded in the DataFrame **X** and your
+target is loaded in **y**."""
+
+# Import the train_test_split function
+from sklearn.model_selection import train_test_split
+
+train_X, val_X, train_y, val_y = train_test_split(X,y,random_state=1)
+
+step_1.check()
+
+"""Step 2: Specify and Fit the Model
+Create a `DecisionTreeRegressor` model and fit it to the relevant data.
+Set `random_state` to 1 again when creating the model."""
+
+# You imported DecisionTreeRegressor in your last exercise
+# and that code has been copied to the setup code above. So, no need to
+# import it again
+
+# Specify the model
+iowa_model =  DecisionTreeRegressor(random_state=1)
+
+# Fit iowa_model with the training data.
+iowa_model.fit(train_X,train_y)
+step_2.check()
+
+"""Step 3: Make Predictions with Validation data"""
+# Predict with all validation observations
+val_predictions = iowa_model.predict(val_X)
+step_3.check()
+
+"""Inspect your predictions and actual values from validation data."""
+# print the top few validation predictions
+print(val_predictions[0:5])
+# print the top few actual prices from validation data
+print(val_y[0:5])
+
+"""Step 4: Calculate the Mean Absolute Error in Validation Data"""
+from sklearn.metrics import mean_absolute_error
+val_mae = mean_absolute_error(val_y, val_predictions)
+
+# uncomment following line to see the validation_mae
+#print(val_mae)
+print(val_mae)
+step_4.check()
+
+以上就是机器学习的一个简单流程,转自kaggle的新手教程
