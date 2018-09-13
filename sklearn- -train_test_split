@@ -1,0 +1,17 @@
+Sklearn-train_test_split随机划分训练集和测试集
+http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.
+train_test_split.html#sklearn.model_selection.train_test_split (这是关于随机划分训练集和测试
+的官网超链接)
+
+函数的基本介绍如下
+一般形式：
+train_test_split是交叉验证中常用的函数，功能是从样本中随机的按比例选取train data和testdata，形式为：
+X_train,X_test, y_train, y_test =
+cross_validation.train_test_split(train_data,train_target,test_size=0.4, random_state=0)
+参数解释：
+train_data：所要划分的样本特征集
+train_target：所要划分的样本结果
+test_size：样本占比，如果是整数的话就是样本的数量
+random_state：是随机数的种子。如果值为0的话每次的结果都不一样,为了让每次的结果都一样ramdom_state的值
+为1或者其他的值.种子不同，产生不同的随机数；种子相同，即使实例不同也产生相同的随机数.
+
