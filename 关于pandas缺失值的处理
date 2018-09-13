@@ -1,0 +1,60 @@
+
+    在实际的建模中,处理数据缺失值和误差值是建模的必要工作,如果数据处理得不干净,那么有效的建模就无从谈起.这里主要
+总结了一些关于pandas的缺失值的处理方法.
+    python使用浮点值NaN(Not a Number)来表示缺失值,同时python内置的None值也可以表示缺失值.
+    
+    一.pandas中的series或者dataframe类型的缺失值判断方法.---isnull()
+    例子1:
+    import pandas as pd
+    s=pd.Series(['1','2','np.nan',23,'None'])
+    k=pd.DataFrame(['a','b','np.nan',4,'None'])
+    #可以使用isnull方法用来判断缺失值,如果是则返回True,否就返回False
+    print(s.isnull())
+    print(k.isnull())
+    利用isnull()方法定位缺失值所在.
+    print(s[s.isnull()])
+    print(k[k.isnull()])
+    
+    二.缺失值过滤
+    (1)pandas中的series中的缺失值过滤.
+    #使用notnull方法获得非缺失值数据.
+    print(s[s.notnull()])
+    
+    #使用dropna方法删除series中的有缺失值的行
+    print(s.dropna())#注意,这里并没有在原series表中进行删除,而是新建了一个副本.
+    #如果要在原表上删除,那么可以通过设置参数series.
+    s.dropna(inplace=True)
+    
+    (2)有关dataframe中的缺失值删除
+    s.dropna(axis=0)#行删除
+    s.dropna(axis=1)#列删除
+    
+    #删除全是缺失值的行和列.
+    #当列全为NaN的时候，才删除
+    s.dropna(how="all")
+    #当列全为NaN的时候，才删除
+    print(s.dropna(how="all",axis=1))
+    #dataFrame同样可以使用inplace方法
+    
+    #显示删除数据的条数
+    #通过thresh参数来控制显示删除数据的条数，删除列的时候thresh参数无效
+    print(s.dropna(how="all",thresh=2))
+
+    三.数据值填充
+    填充缺失值.
+    1.使用指定值进行填充.使用fillna方法
+    print(s.fillna(0))#在填充值为0
+    
+    2.不同列使用不同的填充值
+    print(data.fillna({1:1,2:2}))
+    意思是在第一列使用填充值1,第二列使用填充值2
+    
+    3.前向填充和后向填充
+    #前向填充，使用默认是上一行的值,设置axis=1可以使用列进行填充
+    print(data.fillna(method="ffill"))
+    
+    #后向填充，使用下一行的值,不存在的时候就不填充
+    print(data.fillna(method="bfill"))
+    
+    4.使用列的平均值进行填充
+    print(data.fillna(data.mean()))
